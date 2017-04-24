@@ -1,17 +1,18 @@
 # coding: utf-8
 
-def parse_optionals opts_arg
-  delim = opts_arg[0]
-  body  = opts_arg[1..-1]
-  kvs = body.split(delim)
+def parse_optionals optional_args
   opts = {}
 
-  kvs.each do |kv|
-    idx = kv.index("=")
-    # assert idx >= 1
-    k = kv[0 ... idx]
-    v = kv[(idx + 1) .. -1]
-    opts[k] = v
+  optional_args.each do |arg|
+    if arg.include? "="
+      idx = arg.index("=")
+      # assert idx >= 1
+      k = arg[0 ... idx]
+      v = arg[(idx + 1) .. -1]
+      opts[k] = v
+    else
+      opts[arg] = true
+    end
   end
 
   opts
@@ -22,8 +23,8 @@ def parse_args args, names
 
   if ARGV.size == names.size
     # no optional arguments
-  elsif ARGV.size == names.size + 1
-    opts = parse_optionals(ARGV[names.size])
+  elsif ARGV.size > names.size
+    opts = parse_optionals(ARGV[names.size .. -1])
   else
     raise "invalid arguments size"
   end

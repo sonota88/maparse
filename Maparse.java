@@ -5,17 +5,18 @@ import java.util.Map;
 
 public class Maparse {
 
-    static Map<String, String> parseOptionals(String optsArg) {
-        String delim = optsArg.substring(0, 1);
-        String body = optsArg.substring(1);
-        String[] kvs = body.split(delim);
+    static Map<String, String> parseOptionals(String[] optionalArgs) {
         Map<String, String> opts = new HashMap<>();
 
-        for (String kv : kvs) {
-            int idx = kv.indexOf("=");
-            String k = kv.substring(0, idx);
-            String v = kv.substring(idx + 1);
-            opts.put(k, v);
+        for (String arg : optionalArgs) {
+            int idx = arg.indexOf("=");
+            if (idx < 0) {
+                opts.put(arg, "true");
+            } else {
+                String k = arg.substring(0, idx);
+                String v = arg.substring(idx + 1);
+                opts.put(k, v);
+            }
         }
 
         return opts;
@@ -26,8 +27,8 @@ public class Maparse {
 
         if (args.length == names.length) {
             // no optional arguments
-        } else if (args.length == names.length + 1) {
-            opts = parseOptionals(args[names.length]);
+        } else if (args.length > names.length) {
+            opts = parseOptionals(drop(args, names.length));
         } else {
             throw new IllegalArgumentException();
         }
@@ -38,6 +39,15 @@ public class Maparse {
         }
 
         return opts;
+    }
+
+    private static String[] drop(String[] originalArray, int n) {
+        int newSize = originalArray.length - n;
+        String[] newArray = new String[newSize];
+        for (int i = 0; i < newSize; i++) {
+            newArray[i] = originalArray[n + i];
+        }
+        return newArray;
     }
 
     public static void main(String[] args) {
