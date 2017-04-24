@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Maparse {
 
-    static Map<String, String> parseOpts(String optsArg) {
+    static Map<String, String> parseOptionals(String optsArg) {
         String delim = optsArg.substring(0, 1);
         String body = optsArg.substring(1);
         String[] kvs = body.split(delim);
@@ -27,7 +27,7 @@ public class Maparse {
         if (args.length == names.length) {
             // no optional arguments
         } else if (args.length == names.length + 1) {
-            opts = parseOpts(args[names.length]);
+            opts = parseOptionals(args[names.length]);
         } else {
             throw new IllegalArgumentException();
         }

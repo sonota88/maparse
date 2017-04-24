@@ -1,6 +1,6 @@
 # coding: utf-8
 
-def parse_opts opts_arg
+def parse_optionals opts_arg
   delim = opts_arg[0]
   body  = opts_arg[1..-1]
   kvs = body.split(delim)
@@ -23,7 +23,7 @@ def parse_args args, names
   if ARGV.size == names.size
     # no optional arguments
   elsif ARGV.size == names.size + 1
-    opts = parse_opts(ARGV[names.size])
+    opts = parse_optionals(ARGV[names.size])
   else
     raise "invalid arguments size"
   end
