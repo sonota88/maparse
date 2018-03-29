@@ -29,10 +29,8 @@ object Maparse {
       throw new IllegalArgumentException()
     }
 
-    var i = 0;
-    names.foreach{ name =>
+    names.zipWithIndex.foreach{ case(name, i) =>
       opts = opts + (name -> args(i))
-      i = i + 1
     }
 
     opts
