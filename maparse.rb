@@ -1,6 +1,6 @@
 # coding: utf-8
 
-def parse_optionals optional_args
+def parse_optionals(optional_args)
   opts = {}
 
   optional_args.each do |arg|
@@ -18,7 +18,7 @@ def parse_optionals optional_args
   opts
 end
 
-def parse_args args, names
+def parse_args(args, names)
   opts = {}
 
   if ARGV.size == names.size
